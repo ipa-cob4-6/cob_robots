@@ -1,3 +1,10 @@
+sync:
+  interval_ms: 20
+  overflow: 0
+heartbeat:
+  rate: 20
+  msg: "77f#05"
+
 defaults:
   eds_pkg: cob_hardware_config
   eds_file: "cob4-6/config/Elmo.dcf"
@@ -25,8 +32,6 @@ nodes:
   fl_caster_r_wheel_joint:
     <<: *drive_wheel
     id: 2
-   ## dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
-   ##   "6098": "35" # homing method
 
   ##Wheel 2
   b_caster_rotation_joint:
@@ -37,8 +42,6 @@ nodes:
   b_caster_r_wheel_joint:
     <<: *drive_wheel
     id: 4
-  ##  dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
-  ##    "6098": "35" # homing method
 
   ##Wheel 3
   fr_caster_rotation_joint:
@@ -49,6 +52,4 @@ nodes:
   fr_caster_r_wheel_joint:
     <<: *drive_wheel
     id: 6
-  ##  dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
-  ##    "6098": "35" # homing method
 

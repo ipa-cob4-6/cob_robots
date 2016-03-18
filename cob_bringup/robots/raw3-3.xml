@@ -3,6 +3,7 @@
 
 	<!-- args -->
 	<arg name="robot" value="raw3-3"/>
+	<arg name="use_rplidar" default="false"/>
 	<arg name="pc1" default="localhost"/>
 	<arg name="pc2" default="localhost"/>
 	<arg name="pc3" default="localhost"/>
@@ -25,24 +26,31 @@
 		<include file="$(find cob_bringup)/controllers/base_controller.launch" >
 			<arg name="robot" value="$(arg robot)" />
 		</include>
-		
+
 		<include file="$(find cob_bringup)/drivers/sick_s300.launch" >
 			<arg name="robot" value="$(arg robot)" />
-			<arg name="name" value="front" />
+			<arg name="name" value="base_laser_front" />
 		</include>
 		<include file="$(find cob_bringup)/drivers/sick_s300.launch" >
 			<arg name="robot" value="$(arg robot)" />
-			<arg name="name" value="rear" />
+			<arg name="name" value="base_laser_rear" />
 		</include>
-		
-		<include file="$(find cob_bringup)/drivers/relayboard.launch" >
-			<arg name="sim" value="true" />
+		<include file="$(find cob_bringup)/drivers/scan_unifier.launch" >
+			<arg name="robot" value="$(arg robot)" />
+		</include>
+
+		<include file="$(find cob_bringup)/drivers/battery_voltage.launch" >
+			<arg name="robot" value="$(arg robot)" />
+		</include>
+
+		<include file="$(find cob_bringup)/tools/battery_monitor.launch" >
+			<arg name="robot" value="$(arg robot)" />
 		</include>
 
 		<include file="$(find cob_bringup)/drivers/phidgets.launch" >
 			<arg name="robot" value="$(arg robot)" />
 		</include>
-		
+
 <!--
 		<include file="$(find cob_bringup)/drivers/frida.launch" >
 			<arg name="robot_ip" value="192.168.125.1" />
@@ -58,13 +66,15 @@
 		</include>
 		<include file="$(find cob_bringup)/tools/teleop.launch" >
 			<arg name="robot" value="$(arg robot)" />
-			<arg name="version" value="v1" />
-			<arg name="service_ns" value="/base_controller"/>
-			<arg name="cmd_vel" value="/cmd_vel"/>
 		</include>
 		<include file="$(find cob_bringup)/tools/base_collision_observer.launch" >
 			<arg name="robot" value="$(arg robot)" />
 		</include>
+
+		<group if="$(arg use_rplidar)">
+			<include file="$(find rplidar_ros)/launch/rplidar.launch" />
+		</group>
+
 		<!--include file="$(find cob_bringup)/drivers/canopen_402.launch" >
 			<arg name="robot" value="$(arg robot)" />
 			<arg name="component_name" value="torso" />
@@ -77,23 +87,24 @@
 		<include file="$(find cob_bringup)/tools/emergency_stop_monitor.launch" >
 			<arg name="robot" value="$(arg robot)" />
 		</include>
-		
+
 		<!-- aggregated robot_state_publisher -->
 		<include file="$(find cob_bringup)/tools/robot_state_publisher.launch">
 			<arg name="robot" value="$(arg robot)" />
 		</include>
+
+		<!-- script server -->
+		<include file="$(find cob_script_server)/launch/script_server.launch" />
 	</group>
 
 	<group>
 		<machine name="pc2" address="$(arg pc2)" env-loader="$(find cob_bringup)/env.sh" default="true"/>
 
-		<!-- pc monitor -->
 		<include file="$(find cob_bringup)/tools/pc_monitor.launch" >
 			<arg name="robot" value="$(arg robot)" />
 			<arg name="pc" value="$(arg pc2)" />
 		</include>
 
-		<!-- light -->
 		<include file="$(find cob_bringup)/drivers/light.launch" >
 			<arg name="robot" value="$(arg robot)"/>
 		</include>

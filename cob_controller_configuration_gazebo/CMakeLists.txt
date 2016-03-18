@@ -5,13 +5,13 @@ find_package(catkin REQUIRED COMPONENTS roslaunch)
 
 catkin_package()
 
-
-
 set(robotlist
   cob3-6
   cob3-9
   cob4-1
   cob4-2
+  cob4-3
+  cob4-4
   cob4-6
   raw3-1
   raw3-2
@@ -21,7 +21,6 @@ set(robotlist
   raw3-6
 )
 
-
 if(CATKIN_ENABLE_TESTING)
   foreach(robot ${robotlist})
     message("testing for robot: ${robot}")
@@ -29,9 +28,7 @@ if(CATKIN_ENABLE_TESTING)
   endforeach()
 endif()
 
-
-
-## Mark cpp header files for installation
+### INSTALL ###
 install(DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

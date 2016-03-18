@@ -1,5 +1,5 @@
 pub_rate: 1.0 # Optional
-#base_path: '' # Optional, prepended to all diagnostic output
+base_path: '' # Optional, prepended to all diagnostic output
 analyzers:
   computers:
     type: diagnostic_aggregator/AnalyzerGroup
@@ -9,23 +9,6 @@ analyzers:
         type: diagnostic_aggregator/DiscardAnalyzer
         path: b1
         contains: 'b1'
-
-  sensors:
-    type: diagnostic_aggregator/AnalyzerGroup
-    path: Sensors
-    analyzers:
-      laser_top:
-        type: diagnostic_aggregator/DiscardAnalyzer
-        path: Scan Front
-        contains: 'laser_front'
-      laser_rear:
-        type: diagnostic_aggregator/DiscardAnalyzer
-        path: Scan Rear
-        contains: 'laser_rear'
-      laser_front:
-        type: diagnostic_aggregator/DiscardAnalyzer
-        path: Scan Left
-        contains: 'laser_left'
 
   io:
     type: diagnostic_aggregator/AnalyzerGroup
@@ -41,11 +24,14 @@ analyzers:
     path: Actuators
     analyzers:
       base:
-        type: diagnostic_aggregator/GenericAnalyzer
+        type: diagnostic_aggregator/AnalyzerGroup
         path: Base
-        contains: 'base_driver'
-
-#  safety:
-#    type: diagnostic_aggregator/GenericAnalyzer
-#    path: Safety
-#    contains: 'safety'
+        analyzers:
+          base:
+            type: diagnostic_aggregator/GenericAnalyzer
+            path: drives
+            startswith: 'base/driver'
+          base_twist_mux:
+            type: diagnostic_aggregator/GenericAnalyzer
+            path: twist_mux
+            contains: 'twist_mux'
