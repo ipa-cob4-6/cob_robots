@@ -48,7 +48,7 @@ nodes:
     id: 5
     dcf_overlay: # "ObjectID" : "ParameterValue" (both as strings)
       "6098": "19" # homing method
-      "607C": "-111597" # home offset
+      "607C": "65675.5" #"111597" # home offset
   fr_caster_r_wheel_joint:
     <<: *drive_wheel
     id: 6
